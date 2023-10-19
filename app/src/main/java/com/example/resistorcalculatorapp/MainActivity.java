@@ -1,6 +1,4 @@
 package com.example.resistorcalculatorapp;
-import static android.graphics.Color.RGBToHSV;
-
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.database.DataSetObserver;
@@ -9,14 +7,72 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.ArrayList;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Toast;
+
 //import static com.example.resistorcalculatorapp.R.id.band1;
 public class MainActivity extends AppCompatActivity {
     private Spinner band1, band2, band3, band4;
+    private Float resistorValue, tolerance;
+    private int band1Value, band2Value, multiplier;
 
+    //spinner variables
+    int selectedPositionBand1 = 0;
+    int selectedPositionBand2 = 0;
+    int selectedPositionBand3 = 0;
+    int selectedPositionBand4 = 0;
+
+    // Colours in band 1 and 2
+    String[] colourNames = {
+            "Black",
+            "Brown",
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Violet",
+            "Gray",
+            "White"
+    };
+
+    // Colours in multiplier band
+    String[] multiplierColourNames ={
+            "Black",
+            "Brown",
+            "Red",
+            "Orange",
+            "Yellow",
+            "Green",
+            "Blue",
+            "Violet",
+            "Gray",
+            "White",
+            "Gold",
+            "Silver"
+    };
+    // Colours in multiplier band
+    String[] toleranceColourNames ={
+            "Brown",
+            "Red",
+            "Green",
+            "Blue",
+            "Violet",
+            "Gray",
+            "Gold",
+            "Silver",
+            "None"
+    };
+    // Variables for determining colour
+    String selectedColourNameBand1 = colourNames[selectedPositionBand1];
+    String selectedColourNameBand2 = colourNames[selectedPositionBand2];
+    String selectedColourNameBand3 = colourNames[selectedPositionBand3];
+    String selectedColourNameBand4 = colourNames[selectedPositionBand4];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,7 +173,82 @@ public class MainActivity extends AppCompatActivity {
         band2.setAdapter(adapter);
         band3.setAdapter(multiplierSpinner);
         band4.setAdapter(toleranceSpinner);
+
+        // Spinner colour name bands variable
+
+//        selectedColourNameBand2 = colourNames[selectedPositionBand2];
+//        selectedColourNameBand3 = colourNames[selectedPositionBand3];
+//        selectedColourNameBand4 = colourNames[selectedPositionBand4];
+        band1.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selection here
+                selectedPositionBand1 = position;
+                selectedColourNameBand1 = colourNames[position];
+
+                Toast.makeText(getApplicationContext(), selectedColourNameBand1, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle case when nothing is selected (optional)
+            }
+        });
+        band2.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selection here
+                selectedPositionBand2 = position;
+                selectedColourNameBand2 = colourNames[position];
+
+                Toast.makeText(getApplicationContext(), selectedColourNameBand2, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle case when nothing is selected (optional)
+            }
+        });
+        band3.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selection here
+                selectedPositionBand3 = position;
+                selectedColourNameBand3 = multiplierColourNames[position];
+
+                Toast.makeText(getApplicationContext(), selectedColourNameBand3, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle case when nothing is selected (optional)
+            }
+        });
+        band4.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Handle the selection here
+                selectedPositionBand4 = position;
+                selectedColourNameBand4 = toleranceColourNames[position];
+
+                Toast.makeText(getApplicationContext(), selectedColourNameBand4, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Handle case when nothing is selected (optional)
+            }
+        });
     }
+
 
 }
 
