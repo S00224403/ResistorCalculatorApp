@@ -6,4 +6,7 @@
     </style>
 
     <style name="Theme.ResistorCalculatorApp" parent="Base.Theme.ResistorCalculatorApp" />
+    <style name="SpinnerItemStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>
