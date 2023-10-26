@@ -1,19 +1,18 @@
 package com.example.resistorcalculatorapp;
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
-import android.database.DataSetObserver;
+
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import java.util.ArrayList;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Toast;
 
 //import static com.example.resistorcalculatorapp.R.id.band1;
 public class MainActivity extends AppCompatActivity {
@@ -188,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedPositionBand1 = position;
                 selectedColourNameBand1 = colourNames[position];
                 band1Value = GetBandValue(selectedColourNameBand1, "band1");
+                ChangeBandColour(selectedColourNameBand1, "band1");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedPositionBand2 = position;
                 selectedColourNameBand2 = colourNames[position];
                 band2Value = GetBandValue(selectedColourNameBand2, "band2");
+                ChangeBandColour(selectedColourNameBand2, "band2");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -214,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedPositionBand3 = position;
                 selectedColourNameBand3 = multiplierColourNames[position];
                 multiplierValue = GetBandValue(selectedColourNameBand3, "multiplier");
+                ChangeBandColour(selectedColourNameBand3, "band3");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -227,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedPositionBand4 = position;
                 selectedColourNameBand4 = toleranceColourNames[position];
                 toleranceValue = GetBandValue(selectedColourNameBand4, "tolerance");
+                ChangeBandColour(selectedColourNameBand4, "band4");
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -237,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     //endregion
+    //region Calculation
     private Double GetBandValue(String colour, String bandType){
         Double bandValue = 0.0;
         if(bandType == "band1" || bandType == "band2")
@@ -352,15 +356,81 @@ public class MainActivity extends AppCompatActivity {
         Double resistanceValue = 0.0;
         resistanceValue = ((band1Value * 10) + band2Value) * multiplierValue;
 
-        resistance.setText(String.valueOf(resistanceValue) + "Ω ±" + String.valueOf(toleranceValue * 100) + "%");
+        resistance.setText("Resistance : " + String.valueOf(resistanceValue) + "Ω ±" + String.valueOf(toleranceValue * 100) + "%");
         //resistance.setText(String.format("Resistance : %.2f%Ω ± %.2f%%", resistanceValue, toleranceValue * 100));
     }
+    //endregion
     public void Clear(View view){
         resistance.setText("");
         band1.setSelection(0);
         band2.setSelection(0);
         band3.setSelection(0);
         band4.setSelection(0);
+    }
+    public void ChangeBandColour(String colour, String band){
+        Drawable currentDrawable, newDrawable;
+        ImageView currentView;
+        // Get current drawable
+        if(band == "band1"){
+            currentDrawable = getResources().getDrawable(R.drawable.band1);
+            currentView = findViewById(R.id.band1Display);
+        } else if (band == "band2") {
+            currentDrawable = getResources().getDrawable(R.drawable.band2);
+            currentView = findViewById(R.id.band2Display);
+        } else if (band == "band3") {
+            currentDrawable = getResources().getDrawable(R.drawable.band3);
+            currentView = findViewById(R.id.band3Display);
+        } else {
+            currentDrawable = getResources().getDrawable(R.drawable.band4);
+            currentView = findViewById(R.id.band4Display);
+            currentView.setVisibility(View.VISIBLE);
+        }
+        // Duplicate drawable
+        newDrawable = currentDrawable.mutate();
+
+        // Create new drawable with the desired colour
+        switch (colour){
+            case "Black":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Brown":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(135,62,35), PorterDuff.Mode.SRC_IN));
+                break;
+            case "Red":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.RED, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Orange":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252, 173, 3), PorterDuff.Mode.SRC_IN));
+                break;
+            case "Yellow":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Green":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Blue":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.BLUE, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Violet":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(252, 3, 244), PorterDuff.Mode.SRC_IN));
+                break;
+            case "Gray":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN));
+                break;
+            case "White":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
+                break;
+            case "Gold":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(255, 215, 0), PorterDuff.Mode.SRC_IN));
+                break;
+            case "Silver":
+                newDrawable.setColorFilter(new PorterDuffColorFilter(Color.rgb(255, 215, 0), PorterDuff.Mode.SRC_IN));
+                break;
+            case "None":
+                currentView.setVisibility(View.INVISIBLE);
+                break;
+        }// End of switch
+        currentView.setImageDrawable(newDrawable);
     }
 }
 
