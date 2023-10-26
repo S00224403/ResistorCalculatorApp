@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 //import static com.example.resistorcalculatorapp.R.id.band1;
 public class MainActivity extends AppCompatActivity {
+    //region Variables
     private Spinner band1, band2, band3, band4;
+    TextView resistance;
     private Float resistorValue, tolerance;
-    private int band1Value, band2Value, multiplier;
+    private double band1Value, band2Value, multiplierValue, toleranceValue;
 
     //spinner variables
     int selectedPositionBand1 = 0;
@@ -73,11 +75,16 @@ public class MainActivity extends AppCompatActivity {
     String selectedColourNameBand2 = colourNames[selectedPositionBand2];
     String selectedColourNameBand3 = colourNames[selectedPositionBand3];
     String selectedColourNameBand4 = colourNames[selectedPositionBand4];
+
+
+    //endregion
+    //region OnCreate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        resistance = findViewById(R.id.resistance);
         band1 = findViewById(R.id.band1);
         band2 = findViewById(R.id.band2);
         band3 = findViewById(R.id.band3);
@@ -173,24 +180,15 @@ public class MainActivity extends AppCompatActivity {
         band2.setAdapter(adapter);
         band3.setAdapter(multiplierSpinner);
         band4.setAdapter(toleranceSpinner);
-
-        // Spinner colour name bands variable
-
-//        selectedColourNameBand2 = colourNames[selectedPositionBand2];
-//        selectedColourNameBand3 = colourNames[selectedPositionBand3];
-//        selectedColourNameBand4 = colourNames[selectedPositionBand4];
+        //region OnClickListener
         band1.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // Handle the selection here
                 selectedPositionBand1 = position;
                 selectedColourNameBand1 = colourNames[position];
-
-                Toast.makeText(getApplicationContext(), selectedColourNameBand1, Toast.LENGTH_SHORT).show();
-
-
+                band1Value = GetBandValue(selectedColourNameBand1, "band1");
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Handle case when nothing is selected (optional)
@@ -202,12 +200,8 @@ public class MainActivity extends AppCompatActivity {
                 // Handle the selection here
                 selectedPositionBand2 = position;
                 selectedColourNameBand2 = colourNames[position];
-
-                Toast.makeText(getApplicationContext(), selectedColourNameBand2, Toast.LENGTH_SHORT).show();
-
-
+                band2Value = GetBandValue(selectedColourNameBand2, "band2");
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Handle case when nothing is selected (optional)
@@ -219,12 +213,8 @@ public class MainActivity extends AppCompatActivity {
                 // Handle the selection here
                 selectedPositionBand3 = position;
                 selectedColourNameBand3 = multiplierColourNames[position];
-
-                Toast.makeText(getApplicationContext(), selectedColourNameBand3, Toast.LENGTH_SHORT).show();
-
-
+                multiplierValue = GetBandValue(selectedColourNameBand3, "multiplier");
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Handle case when nothing is selected (optional)
@@ -236,19 +226,141 @@ public class MainActivity extends AppCompatActivity {
                 // Handle the selection here
                 selectedPositionBand4 = position;
                 selectedColourNameBand4 = toleranceColourNames[position];
-
-                Toast.makeText(getApplicationContext(), selectedColourNameBand4, Toast.LENGTH_SHORT).show();
-
-
+                toleranceValue = GetBandValue(selectedColourNameBand4, "tolerance");
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Handle case when nothing is selected (optional)
             }
         });
+        //endregion
+
     }
+    //endregion
+    private Double GetBandValue(String colour, String bandType){
+        Double bandValue = 0.0;
+        if(bandType == "band1" || bandType == "band2")
+        {
+            switch (colour){
+                case "Black":
+                    bandValue = 0.0;
+                    break;
+                case "Brown":
+                    bandValue = 1.0;
+                    break;
+                case "Red":
+                    bandValue = 2.0;
+                    break;
+                case "Orange":
+                    bandValue = 3.0;
+                    break;
+                case "Yellow":
+                    bandValue = 4.0;
+                    break;
+                case "Green":
+                    bandValue = 5.0;
+                    break;
+                case "Blue":
+                    bandValue = 6.0;
+                    break;
+                case "Violet":
+                    bandValue = 7.0;
+                    break;
+                case "Gray":
+                    bandValue = 8.0;
+                    break;
+                case "White":
+                    bandValue = 9.0;
+                    break;
+            }
+        }
+        else if (bandType == "multiplier") {
+            switch (colour){
+                case "Black":
+                    bandValue = 1.0;
+                    break;
+                case "Brown":
+                    bandValue = 10.0;
+                    break;
+                case "Red":
+                    bandValue = 100.0;
+                    break;
+                case "Orange":
+                    bandValue = 1000.0;
+                    break;
+                case "Yellow":
+                    bandValue = 10000.0;
+                    break;
+                case "Green":
+                    bandValue = 100000.0;
+                    break;
+                case "Blue":
+                    bandValue = 1000000.0;
+                    break;
+                case "Violet":
+                    bandValue = 10000000.0;
+                    break;
+                case "Gray":
+                    bandValue = 100000000.0;
+                    break;
+                case "White":
+                    bandValue = 1000000000.0;
+                    break;
+                case "Gold":
+                    bandValue = 0.1;
+                    break;
+                case "Silver":
+                    bandValue = 0.01;
+                    break;
+            }
+        }
+        else if (bandType == "tolerance") {
+            switch (colour){
+                case "Brown":
+                    bandValue = 0.01;
+                    break;
+                case "Red":
+                    bandValue = 0.02;
+                    break;
+                case "Green":
+                    bandValue = 0.005;
+                    break;
+                case "Blue":
+                    bandValue = 0.0025;
+                    break;
+                case "Violet":
+                    bandValue = 0.001;
+                    break;
+                case "Gray":
+                    bandValue = 0.0005;
+                    break;
+                case "Gold":
+                    bandValue = 0.05;
+                    break;
+                case "Silver":
+                    bandValue = 0.1;
+                    break;
+                case "None":
+                    bandValue = 0.2;
+                    break;
+            }
+        }
+        return bandValue;
 
+    }
+    public void CalculateResistance(View view){
+        Double resistanceValue = 0.0;
+        resistanceValue = ((band1Value * 10) + band2Value) * multiplierValue;
 
+        resistance.setText(String.valueOf(resistanceValue) + "Ω ±" + String.valueOf(toleranceValue * 100) + "%");
+        //resistance.setText(String.format("Resistance : %.2f%Ω ± %.2f%%", resistanceValue, toleranceValue * 100));
+    }
+    public void Clear(View view){
+        resistance.setText("");
+        band1.setSelection(0);
+        band2.setSelection(0);
+        band3.setSelection(0);
+        band4.setSelection(0);
+    }
 }
 
